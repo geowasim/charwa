@@ -10,6 +10,8 @@ export const SignInAndSignUpContainer = styled.div`
     flex-direction: column;
     width: unset;
     align-items: center;
+    margin-left: 30px;
+
 
     > *:first-child {
       margin-bottom: 50px;

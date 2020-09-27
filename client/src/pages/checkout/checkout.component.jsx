@@ -6,64 +6,53 @@ import StripeCheckoutButton from '../../components/stripe-button/stripe-button.c
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';
 
 import {
-  cartItemsSelector,
-  cartTotalSelector,
-  cartItemsCountSelector
-} from '../../redux/cart/cart.selector';
+  selectCartItems,
+  selectCartTotal
+} from '../../redux/cart/cart.selectors';
 
-import './checkout.styles.scss'
+import {
+  CheckoutPageContainer,
+  CheckoutHeaderContainer,
+  HeaderBlockContainer,
+  TotalContainer,
+  WarningContainer
+} from './checkout.styles';
 
-
-
-
-const CheckoutPage = ({cartItems, total, itemCount}) => (
-  <div className='checkout-page'>
-    <div className='checkout-header'>
-      <div className='header-block'>
+const CheckoutPage = ({ cartItems, total }) => (
+  <CheckoutPageContainer>
+    <CheckoutHeaderContainer>
+      <HeaderBlockContainer>
         <span>Product</span>
-      </div>
-      <div className='header-block'>
+      </HeaderBlockContainer>
+      <HeaderBlockContainer>
         <span>Description</span>
-      </div>
-      <div className='header-block'>
+      </HeaderBlockContainer>
+      <HeaderBlockContainer>
         <span>Quantity</span>
-      </div>
-      <div className='header-block'>
+      </HeaderBlockContainer>
+      <HeaderBlockContainer>
         <span>Price</span>
-      </div>
-      <div className='header-block'>
+      </HeaderBlockContainer>
+      <HeaderBlockContainer>
         <span>Remove</span>
-      </div>
-    </div>
-    {
-      cartItems.map(cartItem =>
-        <CheckoutItem key={cartItem.id} cartItem={cartItem} />
-      )
-    }
-    <div className='total'>
-      <div className='totalItems'>
-        <span>TOTAL ITEMS: {itemCount}</span>
-      </div>
-      <div className='totalPrice'>
-        <span>TOTAL PRICE: ${total}</span>
-      </div>
-    </div>
-    <div className='test-warning'>
-      * Payment in test mode so please don't enter the real data for your credit card, to try the payment use the following test credit card below:
-       <br />
-      Card# : 4242 4242 4242 4242 - Exp: 01/21 - CVC: 123
-      <br/>
-    </div>
-
-    <StripeCheckoutButton price={total} cartItems={cartItems}/>
-  </div>
-)
+      </HeaderBlockContainer>
+    </CheckoutHeaderContainer>
+    {cartItems.map(cartItem => (
+      <CheckoutItem key={cartItem.id} cartItem={cartItem} />
+    ))}
+    <TotalContainer>TOTAL: ${total}</TotalContainer>
+    <WarningContainer>
+      *Please use the following test credit card for payments*
+      <br />
+      4242 4242 4242 4242 - Exp: 01/20 - CVV: 123
+    </WarningContainer>
+    <StripeCheckoutButton price={total} />
+  </CheckoutPageContainer>
+);
 
 const mapStateToProps = createStructuredSelector({
-  cartItems: cartItemsSelector,
-  total: cartTotalSelector,
-  itemCount : cartItemsCountSelector
-})
+  cartItems: selectCartItems,
+  total: selectCartTotal
+});
 
-export default connect(mapStateToProps)(CheckoutPage)
-
+export default connect(mapStateToProps)(CheckoutPage);

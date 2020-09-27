@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 
 import CollectionItem from '../../components/collection-item/collection-item.component';
 
-import { collectionSelector } from '../../redux/shop/shop.selector'
-
+import { selectCollection } from '../../redux/shop/shop.selectors';
 
 import {
   CollectionPageContainer,
@@ -13,12 +12,10 @@ import {
 } from './collection.styles';
 
 const CollectionPage = ({ collection }) => {
-
   const { title, items } = collection;
-  // console.log("collectionPage",collection)
   return (
     <CollectionPageContainer>
-      <CollectionTitle>{title.toUpperCase()}</CollectionTitle>
+      <CollectionTitle>{title}</CollectionTitle>
       <CollectionItemsContainer>
         {items.map(item => (
           <CollectionItem key={item.id} item={item} />
@@ -29,29 +26,7 @@ const CollectionPage = ({ collection }) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  collection: collectionSelector(ownProps.match.params.collectionId)(state)
+  collection: selectCollection(ownProps.match.params.collectionId)(state)
 });
 
 export default connect(mapStateToProps)(CollectionPage);
-
-
-
-//this component depends on /shop/collectionId (dynamic url)
-//so it's related to match.param.collectionId that we will use it to pull the component up to state as a part (contian the title )
-//we can't map on id because shop/{title} not title/:id (1,2)
-//the best solution to data normalization and add a title lower case to be they key for maping
-
-
-// for practicing using useEffect hooks to memik componentDidMount and componentWillUnmoun
-/**
- *   useEffect(() => {
-    console.log('I subscribe to collections')
-  *?  const unsubscribeFromCollections = firestore
-      .collection('collections')
-      .onSnapshot(snapshot => console.log(snapshot))
-    return () => {
-      console.log('I am unsubscribing')
-  *?    unsubscribeFromCollections()
-    }
-  }, [])
- */

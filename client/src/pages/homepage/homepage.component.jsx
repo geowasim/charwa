@@ -7,15 +7,7 @@ import { HomePageContainer } from './homepage.styles';
 const HomePage = () => {
   return (
     <HomePageContainer>
-      <Profiler id='Directory' onRender={(id, phase, actualDuration) => {
-        console.log({
-          id,
-          phase,
-          actualDuration
-        })
-      }}>
         <Directory />
-      </Profiler>
   </HomePageContainer>
 )}
 
